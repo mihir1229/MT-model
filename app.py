@@ -58,7 +58,8 @@ def translate():
             translated_text = "Translation not supported for the selected language pair"
         
         return jsonify({'translated_text': translated_text})
-
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 

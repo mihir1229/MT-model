@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odia to Hindi Translator</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Odia to Hindi Translator</h1>
+        <div class="input-area">
+            <textarea id="source-text" rows="5" placeholder="Enter Odia text..."></textarea>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn" id="source-dropdown">Source</button>
+            <div class="dropdown-content" id="source-dropdown-content">
+                <a href="#" onclick="setDropdownValue('source-dropdown', this)">Odia</a>
+                <a href="#" onclick="setDropdownValue('source-dropdown', this)">English</a>
+                
+            </div>
+        </div>
+        <!-- Target Language Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn" id="target-dropdown">Target</button>
+            <div class="dropdown-content" id="target-dropdown-content">
+                <a href="#" onclick="setDropdownValue('target-dropdown', this)">Odia</a>
+                <a href="#" onclick="setDropdownValue('target-dropdown', this)">Hindi</a>
+            </div>
+        </div>
+        <button onclick="itranslate()">Translate</button>
+        <div class="output-area">
+            <textarea id="target-text" rows="5" readonly placeholder="Translation will appear here..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        function setDropdownValue(dropdownId, selectedOption) {
+            var dropdownButton = document.getElementById(dropdownId);
+            dropdownButton.textContent = selectedOption.textContent;
+        }
+
+        function itranslate() {
+            var sourceText = document.getElementById('source-text').value;
+            var sourceLanguage = document.getElementById('source-dropdown').textContent;
+            var targetLanguage = document.getElementById('target-dropdown').textContent;
+
+            // AJAX request to the server to translate
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/translate', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById('target-text').value = response.translated_text;
+                }
+            };
+            var data = JSON.stringify({ source_text: sourceText, source_language: sourceLanguage, target_language: targetLanguage });
+            xhr.send(data);
+        }
+    </script>
+</body>
+</html>

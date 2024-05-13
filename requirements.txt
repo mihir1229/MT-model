@@ -5,4 +5,5 @@ numpy
 pandas
 gunicorn
 joblib
+pickleshare
 

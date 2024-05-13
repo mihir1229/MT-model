@@ -1,6 +1,0 @@
-flask
-datasets
-transformers
-numpy
-pandas
-gunicorn
